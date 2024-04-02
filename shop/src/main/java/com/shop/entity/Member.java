@@ -2,7 +2,6 @@ package com.shop.entity;
 
 import com.shop.constant.Role;
 import com.shop.dto.MemberFormDto;
-import groovyjarjarasm.asm.tree.LookupSwitchInsnNode;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +38,7 @@ public class Member {
         member.setAddress(memberFormDto.getAddress());
         String password = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(password);
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
         return member;
     }
 }
