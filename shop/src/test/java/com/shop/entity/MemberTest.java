@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 @SpringBootTest
 @Transactional
@@ -41,8 +39,8 @@ class MemberTest {
 
         System.out.println("register time: " + member.getRegTime());
         System.out.println("update time: " + member.getUpdateTime());
-        System.out.println("create time: " + member.getCreatedBy());
-        System.out.println("modify time: " + member.getModifiedBy());
+        System.out.println("create member: " + member.getCreatedBy());
+        System.out.println("modify member: " + member.getModifiedBy());
 
     }
 
