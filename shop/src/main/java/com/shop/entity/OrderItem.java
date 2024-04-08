@@ -42,6 +42,6 @@ public class OrderItem extends BaseEntity{
     }
 
     public void cancel(){
-        this.getItem().addStock(count);
+        this.getItem().addStock(count); //Lazy loading
     }
 }
