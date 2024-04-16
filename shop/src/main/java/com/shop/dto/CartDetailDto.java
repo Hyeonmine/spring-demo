@@ -9,8 +9,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CartDetailDto {
     private Long cartItemId;
+    private Long itemId;
     private String itemNm;
     private int price;
     private int count;
     private String imgUrl;
 }
+

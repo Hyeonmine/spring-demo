@@ -96,7 +96,4 @@ public class ItemService {
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
 
-
-
-
 }

@@ -12,6 +12,13 @@
     <script th:inline="javascript">
 
         $(document).ready(function (){
+
+            // $(".repImg").click(function (){
+            //     var itemId = $(this).attr("data-item-id");
+            //     if(itemId){
+            //         window.location.href = "/item/" + itemId;
+            //     }
+            // })
             $("input[name=cartChkBox]").change(function (){
                 getOrderTotalPrice();
             });
@@ -209,11 +216,13 @@
             <tbody>
             <tr th:each="cartItem : ${cartItems}">
                 <td class="text-center align-middle">
-                    <input type="checkbox" name="cartChkBox" th:value="${cartItem.cartItemId}">
+                    <input type="checkbox" name="cartChkBox">
                 </td>
                 <td class="d-flex">
                     <div class="repImgDiv align-self-center">
-                        <img th:src="${cartItem.imgUrl}" class="rounded repImg" th:alt="${cartItem.itemNm}">
+                        <a th:href="'/item/' + ${cartItem.itemId}">
+                        <img th:src="${cartItem.imgUrl}" class="rounded repImg" th:alt="${cartItem.itemNm}" th:attr="data-item-id=${cartItem.itemId}">
+                        </a>
                     </div>
                     <div class="align-self-center">
                         <span th:text="${cartItem.itemNm}" class="fs24 font-weight bold"></span>

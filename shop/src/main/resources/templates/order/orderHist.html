@@ -108,8 +108,9 @@
                 <div class="align-self-center w-75">
                     <span th:text="${orderItem.itemNm}" class="fs24 font-weight-bold"></span>
                     <div class="fs18 font-weight-light">
-                        <span th:text="${orderItem.orderPrice} + '원'"></span>
-                        <span th:text="${orderItem.count} + '개'"></span>
+                        <span th:text="'가격: ' + ${orderItem.orderPrice} + '원'"></span><br>
+                        <span th:text="'구매수량: ' + ${orderItem.count} + '개'"></span><br>
+                        <span th:text="'결제 금액: ' + ${orderItem.orderPrice * orderItem.count} + '원'" th:style="'color:blue;'"></span>
                     </div>
                 </div>
             </div>
@@ -120,7 +121,7 @@
     orders.totalPages ? start + (maxPage - 1) : orders.totalPages)})">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${orders.number eq 0} ? 'disabled' : ''">
-                <a th:href="@{'/orders/' + ${orders.number-1}}" aria-label="Previous" class="page-link">
+                <a th:href="@{'/orders/' + ${orders.number -1}}" aria-label="Previous" class="page-link">
                     <span aria-hidden="true">Previous</span>
                 </a>
             </li>

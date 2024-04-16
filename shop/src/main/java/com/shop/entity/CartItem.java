@@ -23,8 +23,11 @@ public class CartItem extends BaseEntity{
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private int count;
+//    public Long getItemId(){
+//        return this.item !=null? this.item.getId() : null;
+//    }
 
+    private int count;
     public static CartItem createCartItem(Cart cart, Item item, int count){
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);

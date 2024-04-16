@@ -4,6 +4,7 @@ import com.shop.dto.CartDetailDto;
 import com.shop.dto.CartItemDto;
 import com.shop.dto.CartOrderDto;
 import com.shop.service.CartService;
+import com.shop.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+    private final ItemService itemService;
 
     @PostMapping(value = "/cart")
     public @ResponseBody ResponseEntity order(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult, Principal principal){
@@ -94,4 +96,5 @@ public class CartController {
         Long orderId = cartService.orderCartItem(cartOrderDtoList, principal.getName());
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
+
 }
