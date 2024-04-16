@@ -214,7 +214,7 @@
                 </td>
                 <td class="d-flex">
                     <div class="repImgDiv align-self-center">
-                        <img th:src="@{'/uploadImg/'+ ${cartItem.imgUrl}}" class="rounded repImg" th:alt="${cartItem.itemNm}">
+                        <img th:src="@{${cartItem.imgUrl}}" class="rounded repImg" th:alt="${cartItem.itemNm}">
                     </div>
                     <div class="align-self-center">
                         <span th:text="${cartItem.itemNm}" class="fs24 font-weight bold"></span>
