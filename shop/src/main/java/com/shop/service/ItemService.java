@@ -86,6 +86,16 @@ public class ItemService {
         return item.getId();
     }
 
+    public void deleteItem(Long itemId) throws Exception{
+
+        Item item = itemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
+
+        itemImgService.deleteItemImagesByItemId(itemId);
+
+        itemRepository.delete(item);
+
+    }
+
     @Transactional(readOnly = true)
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);

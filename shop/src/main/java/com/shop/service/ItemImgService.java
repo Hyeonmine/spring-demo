@@ -74,5 +74,18 @@ public class ItemImgService {
 
     }
 
+    public void deleteItemImagesByItemId(Long itemId) throws Exception{
+
+        List<ItemImg> itemImgaes = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+
+        for(ItemImg itemImage : itemImgaes) {
+            if(!StringUtils.isEmpty(itemImage.getImgName())){
+                    fileService.deleteFile(itemImgLocation + "/" + itemImage.getImgName());
+            }
+
+            itemImgRepository.delete(itemImage);
+        }
+    }
+
 
 }

@@ -10,6 +10,8 @@ import com.shop.dto.QMainItemDto;
 import com.shop.entity.Item;
 import com.shop.entity.QItem;
 import com.shop.entity.QItemImg;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,6 +25,7 @@ import java.util.List;
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
+    private EntityManager entityManager;
 
     private final QItem item = QItem.item; //querydsl에서는 item이라는 인스턴스가 없어서 컬럼 정보 , 메타데이터를 q클래스로 받아오는데, item을 써야하는 모든 부분에 qItem으로 사용함, 계속 작성할 필요없이 필드로 선언 한다.
 
@@ -126,5 +129,12 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         if(total == null)
             total = 0L;
         return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public void deleteItem(Long itemId){
+        Query query= entityManager.createQuery("Delete from i where i.id = :itemId");
+        query.setParameter("itemId", itemId);
+        query.executeUpdate();
     }
 }

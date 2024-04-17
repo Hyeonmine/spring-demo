@@ -12,7 +12,6 @@
     <script th:inline="javascript">
 
         $(document).ready(function (){
-
             $("input[name=cartChkBox]").change(function (){
                 getOrderTotalPrice();
             });
@@ -210,11 +209,13 @@
             <tbody>
             <tr th:each="cartItem : ${cartItems}">
                 <td class="text-center align-middle">
-                    <input type="checkbox" name="cartChkBox">
+                    <input type="checkbox" name="cartChkBox" th:value="${cartItem.cartItemId}">
                 </td>
                 <td class="d-flex">
                     <div class="repImgDiv align-self-center">
+                        <a th:href="'/item/' + ${cartItem.itemId}">
                         <img th:src="${cartItem.imgUrl}" class="rounded repImg" th:alt="${cartItem.itemNm}">
+                        </a>
                     </div>
                     <div class="align-self-center">
                         <span th:text="${cartItem.itemNm}" class="fs24 font-weight bold"></span>
@@ -241,7 +242,7 @@
         </table>
 
         <h2 class="text-center">
-            총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
+            총 주문 금액 : <span id="orderTotalPrice" class="text-danger"> 0원 </span>
         </h2>
 
         <div class="text-center mt-3">

@@ -62,7 +62,8 @@ public class ItemController {
             ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
             model.addAttribute("itemFormDto", itemFormDto);
         }catch (EntityNotFoundException e) {
-            model.addAttribute("errorMessage", "존재하지 않는 상품 입니다.");
+            model.addAttribute("errorMessage", "존재하지 않는 상품 " +
+                    "입니다.");
             model.addAttribute("itemFormDto", new ItemFormDto());
             return "item/itemForm";
         }
@@ -112,6 +113,15 @@ public class ItemController {
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item", itemFormDto);
         return "item/itemDtl";
+    }
+
+    @PostMapping(value = "admin/item/delete")
+    public String deleteItem(@RequestParam("itemId") Long itemId, Model model) throws Exception {
+        itemService.deleteItem(itemId);
+
+        model.addAttribute("deleteSuccess", true);
+
+        return "redirect:/admin/items";
     }
 
 }

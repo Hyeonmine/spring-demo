@@ -34,7 +34,7 @@ public class FileService {
         return savedFileName;
     }
 
-    public void deleteFile(String filePath) throws Exception{
+    public void deleteFile(String filePath){
         File deleteFile = new File(filePath);
 
         if(deleteFile.exists()){
