@@ -3,6 +3,7 @@ package com.boot.demo.Service;
 import com.boot.demo.Repository.RefreshTokenRepository;
 import com.boot.demo.Repository.UserRepository;
 import com.boot.demo.dto.LoginDto;
+import com.boot.demo.dto.TokenRequest;
 import com.boot.demo.dto.TokenResponse;
 import com.boot.demo.dto.UserFormDto;
 import com.boot.demo.entity.RefreshToken;
@@ -44,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public void signup(UserFormDto user){
+    public void signup(UserFormDto user){ //DB에 밀어넣기
 
         if(!validate(user)) throw new RuntimeException("이미 존재하는 유저 입니다.");
 
@@ -75,7 +76,26 @@ public class UserService implements UserDetailsService {
         }
         // 3. Access토큰을 발급하고 TokenResponse(엑세스 + 리프레쉬) 반환
         String accessToken = tokenProvider.createAccessToken(user, Duration.ofHours(2));
-        return new TokenResponse(accessToken, newRefreshToken);
+        return new TokenResponse(accessToken, newRefreshToken, user.getRole().getKey()); //권한 정보도 같이 포함해서 주겠다.
+    }
+
+    public void logout(TokenRequest request){
+        refreshTokenService.removeToken(request.getRefreshToken());
+    }
+
+    public TokenResponse tokenRefresh(TokenRequest tokenRequest) throws Exception{
+
+        if(!tokenProvider.validateToken(tokenRequest.getRefreshToken())){
+            throw new IllegalArgumentException("Unexpected token");
+        }
+
+        RefreshToken refreshToken = refreshTokenService
+                .findByRefreshToken(tokenRequest.getRefreshToken());
+
+        User user = refreshToken.getUser();
+        String accessToken = tokenProvider.createAccessToken(user, Duration.ofHours(2));
+        String newRefreshToken = refreshToken.update(tokenProvider.createRefreshToken(Duration.ofDays(1))).getRefreshToken();
+        return new TokenResponse(accessToken, newRefreshToken, user.getRole().getKey());
     }
 
     @Override

@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class TokenProvider {
+public class TokenProvider { //Controller에 도달하기 전에 인증정보 담는 등의 역할을 함
 
     private static final String AUTHENTICATION_KEY = "/auth";
     private final JwtProperties jwtProperties;
 
     public String createAccessToken(User user, Duration duration){
         Date now = new Date();
-        Date expiry = new Date(now.getTime() - duration.toMillis());
+        Date expiry = new Date(now.getTime() + duration.toMillis());
         String authorities = user.getRole().getKey();
 
         return Jwts.builder()
@@ -54,7 +54,7 @@ public class TokenProvider {
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer(jwtProperties.getIssuer())
                 .setIssuedAt(now)
-                .setExpiration(expiry)
+                .setExpiration(expiry) //언제 만료될지
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
     }
@@ -63,7 +63,7 @@ public class TokenProvider {
         try {
             Jwts.parser()
                     .setSigningKey(jwtProperties.getSecretKey())
-                    .parseClaimsJwt(token);
+                    .parseClaimsJws(token);
             return true;
         }catch (Exception e){
             log.info("유호하지 않은 JWT 토큰 입니다.");
@@ -74,12 +74,12 @@ public class TokenProvider {
     public Claims getClaims(String token){
         return Jwts.parser()
                 .setSigningKey(jwtProperties.getSecretKey())
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
 
     }
 
-    public Authentication getAtAuthentication(String token){
+    public Authentication getAtAuthentication(String token){ //인증정보 만들기
         Claims claims = getClaims(token);
         if(claims.get(AUTHENTICATION_KEY) == null){
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
@@ -92,7 +92,7 @@ public class TokenProvider {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        return new UsernamePasswordAuthenticationToken(
+        return new UsernamePasswordAuthenticationToken( //UsernamePasswordAuthenticationToken 만들어서 검증 ,,?
                 new org.springframework.security.core.userdetails.User(
                         userId, "",authorities
                 ),

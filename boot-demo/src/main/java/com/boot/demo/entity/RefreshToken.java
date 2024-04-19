@@ -1,13 +1,11 @@
 package com.boot.demo.entity;
 
-import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.lang.management.LockInfo;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

@@ -1,5 +1,7 @@
 package com.boot.demo.config;
 
+import com.boot.demo.jwt.JwtAccessDeniedHandler;
+import com.boot.demo.jwt.JwtAuthenticationEntryPoint;
 import com.boot.demo.jwt.JwtFilter;
 import com.boot.demo.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ public class SecurityConfig {
     private String frontDomain;
 
     private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -38,24 +42,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
-                .httpBasic(
+                .httpBasic( //기본인증
                         basic-> basic.disable()
                 )
-                .csrf(
+                .csrf( //token
                         csrf -> csrf.disable()
                 )
-                .logout(
-                        logout -> logout.clearAuthentication(true)
-                )
+//                .logout(
+//                        logout -> logout.clearAuthentication(true)
+//                )
                 .sessionManagement(
                         sessionManage -> sessionManage
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .addFilterBefore(
+                .addFilterBefore( //토큰인증필터
                         new JwtFilter(tokenProvider),
                         UsernamePasswordAuthenticationFilter.class
                 )
-                .authorizeHttpRequests(
+                .exceptionHandling(
+                        exceptionHandler -> exceptionHandler
+                                .accessDeniedHandler(jwtAccessDeniedHandler)
+                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+
+                )
+                .authorizeHttpRequests( //권한 처리
                         request -> {
                             request
                                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
