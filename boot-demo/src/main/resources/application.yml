@@ -2,16 +2,16 @@ server:
   port: 8080
 
 # Develop
-#frontDomain: "http://localhost:3000"
-#dbDomain: "mysql://localhost:3306"
-#dbUser: "root"
-#dbPassword: "1234"
+frontDomain: "http://localhost:3000"
+dbDomain: "mysql://localhost:3306"
+dbUser: "root"
+dbPassword: "1234"
 
 # Deploy
-frontDomain: "http://43.200.179.55:3000"
-dbDomain: "mysql://3.35.234.116:3306"
-dbUser: "demo"
-dbPassword: "1234"
+#frontDomain: "http://43.200.179.55:3000"
+#dbDomain: "mysql://3.35.234.116:3306"
+#dbUser: "demo"
+#dbPassword: "1234"
 
 spring:
   datasource:

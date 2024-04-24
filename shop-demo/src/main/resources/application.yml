@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+frontDomain : "http://localhost:3000"
+dbDomain: "mysql://localhost:3306"
+dbUser: "root"
+dbPassword: "1234"
+
+
+
+spring:
+  datasource:
+    url: jdbc:${dbDomain}/reactShop?useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${dbUser}
+    password: ${dbPassword}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+#    defer-datasource-initialization: true
+
+
+
+jwt:
+  issuer : reactShop
+  secret-key: jwtSecretKeys
