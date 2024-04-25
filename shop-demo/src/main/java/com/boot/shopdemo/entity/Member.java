@@ -14,16 +14,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 @Entity
 @Table(name = "member")
 @Getter
 @Setter
 @ToString
 
-public class Member implements UserDetails {
+public class Member extends BaseEntity implements UserDetails {
+
 
     @Id
-    @Column(name="member_id")
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -44,9 +46,9 @@ public class Member implements UserDetails {
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
-        member.setAddress(memberFormDto.getAddress());
         String password = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(password);
+        member.setAddress(memberFormDto.getAddress());
         member.setRole(Role.USER);
         return member;
     }
@@ -61,11 +63,11 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.email;
     }
 
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return this.password;
     }
 

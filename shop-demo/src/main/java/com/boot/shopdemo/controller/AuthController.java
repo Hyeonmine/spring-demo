@@ -51,4 +51,13 @@ public class AuthController {
         }
         return ResponseEntity.ok("로그아웃 되었습니다.");
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@Valid TokenRequest tokenRequest){
+        try{
+            return new ResponseEntity<>(memberService.tokenRefresh(tokenRequest), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -68,6 +68,7 @@ public class SecurityConfig {
                                     .requestMatchers(antMatcher("/")).permitAll()
                                     .requestMatchers(antMatcher("/favicon.ico")).permitAll()
                                     .requestMatchers(antMatcher("/member/**")).permitAll()
+                                    .requestMatchers(antMatcher("/member/signup")).permitAll()
                                     .requestMatchers(antMatcher("/css/**")).permitAll()
                                     .anyRequest().authenticated();
                         }

@@ -35,7 +35,7 @@ public class MemberService implements UserDetailsService {
     private final RefreshTokenService refreshTokenService;
 
     public boolean validate(MemberFormDto memberFormDto){
-        Member existMember = memberRepository.findById(memberFormDto.getEmail()).orElse(null);
+        Member existMember = memberRepository.findByEmail(memberFormDto.getEmail());
 
         if(existMember != null) {
             return false;
@@ -59,8 +59,7 @@ public class MemberService implements UserDetailsService {
                 authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         //1.해당 유저 조회
-        Member member = memberRepository.findById(authentication.getName())
-                .orElseThrow(EntityNotFoundException::new);
+        Member member = memberRepository.findByEmail(authentication.getName());
 
         String newRefreshToken = tokenProvider.createRefreshToken(Duration.ofDays(1));
         RefreshToken existRefreshToken = refreshTokenService.findByUser(member);
@@ -93,10 +92,10 @@ public class MemberService implements UserDetailsService {
         return new TokenResponse(accessToken, newRefreshToken, member.getRole().getKey());
     }
 
-    private UserDetails findById(String username){
-        return memberRepository.findById(username)
-                .orElseThrow(()->new UsernameNotFoundException("존재하지 않는 유저입니다."));
-    }
+//    private UserDetails findById(String username){
+//        return memberRepository.findById(username)
+//                .orElseThrow(()->new UsernameNotFoundException("존재하지 않는 유저입니다."));
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -4,24 +4,26 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.userdetails.User;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Entity
-@Table(name = "refresh_Token")
+@Table(name = "refresh_token")
 public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RefreshToken_id", updatable = false)
+    @Column(name = "refresh_token_id", updatable = false)
     private Long id;
 
     @OneToOne
-    @JoinColumn (name = "user_id", nullable = false, unique = true)
+    @JoinColumn (name = "member_id", nullable = false, unique = true)
     private Member member;
 
-    @Column(name = "Refresh_token", nullable = false)
+    @Column(name = "refresh_token", nullable = false)
     private String refreshToken;
 
     public RefreshToken(Member member, String refreshToken){
